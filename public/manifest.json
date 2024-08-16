@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "YT Watch Later Roaster",
+  "version": "1.0.0",
+  "description": "Roasts a user based on their watch later videos.",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "downloads",
+    "https://www.youtube.com/*"
+  ],
+  "action": {
+    "default_popup": "index.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}

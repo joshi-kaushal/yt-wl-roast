@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Platypi';
+  src: url('/fonts/serif-playpi.tiff') format('tiff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
