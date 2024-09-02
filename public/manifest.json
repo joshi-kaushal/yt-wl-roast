@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "description": "Roasts a user based on their watch later videos.",
   "permissions": [
+    "storage",
     "activeTab",
     "scripting",
     "downloads",
@@ -12,7 +13,10 @@
   "action": {
     "default_popup": "index.html"
   },
-  "background": {
-    "service_worker": "background.js"
+   "icons": {
+    "16": "./icons/icon16.ico",
+    "32": "./icons/icon32.ico",
+    "48": "./icons/icon48.ico",
+    "128": "./icons/icon128.ico"
   }
 }
