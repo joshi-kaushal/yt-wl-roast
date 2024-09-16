@@ -1,6 +1,6 @@
-import { useEffect, useState, useRef, FormEvent } from "react";
 import html2canvas from "html2canvas";
-import "./App.css";
+import { Copy, Image } from "lucide-react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import NotWatchLaterTab from "./components/NotWatchLaterTab";
 import WatchLaterTab from "./components/WatchLater";
 import { hasSupport } from "./constants";
@@ -8,8 +8,6 @@ import { hasSupport } from "./constants";
 function App() {
   const [isTabYoutube, setIsTabYoutube] = useState(false);
   const [roast, setRoast] = useState<string>("");
-
-  const [isCopying, setIsCopying] = useState<boolean>(false);
   const roastRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -18,26 +16,14 @@ function App() {
         active: true,
         currentWindow: true,
       });
-      if (tab.url && tab.url.includes("youtube.com/playlist?list=WL")) {
-        setIsTabYoutube(true);
-      } else {
-        setIsTabYoutube(false);
-      }
+      setIsTabYoutube(tab.url?.includes("youtube.com/playlist?list=WL") ?? false);
     };
 
     checkCurrentTab();
 
-    const listener = (
-      _: number,
-      changeInfo: chrome.tabs.TabChangeInfo,
-      tab: chrome.tabs.Tab
-    ) => {
+    const listener = (_: number, changeInfo: chrome.tabs.TabChangeInfo, tab: chrome.tabs.Tab) => {
       if (changeInfo.status === "complete" && tab.url) {
-        if (tab.url.includes("youtube.com/playlist?list=WL")) {
-          setIsTabYoutube(true);
-        } else {
-          setIsTabYoutube(false);
-        }
+        setIsTabYoutube(tab.url.includes("youtube.com/playlist?list=WL"));
       }
     };
 
@@ -48,31 +34,31 @@ function App() {
     };
   }, []);
 
-  async function onCopy(event: FormEvent<HTMLButtonElement>) {
+  const handleCopy = async (event: FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
     try {
       if (hasSupport()) {
         await navigator.clipboard.writeText(roast);
-        alert(`The roast is copied to the clipboard!`);
+        alert("The roast is copied to the clipboard!");
       } else {
-        alert(`Clipboard API is Not Supported`);
+        alert("Clipboard API is Not Supported");
       }
     } catch (err) {
       console.error(`Failed to copy: ${err}`);
+      alert("Failed to copy text");
     }
-  }
+  };
 
   const copyAsImage = async () => {
     if (!roastRef.current) return;
 
-    setIsCopying(true);
     try {
       const canvas = await html2canvas(roastRef.current, {
         scale: 2,
         useCORS: true,
         logging: false,
-        backgroundColor: null,
+        backgroundColor: "#FFFFFF",
       });
 
       canvas.toBlob(
@@ -85,14 +71,7 @@ function App() {
               alert("Roast image copied to clipboard!");
             } catch (err) {
               console.error("Failed to copy image: ", err);
-
-              const url = URL.createObjectURL(blob);
-              const a = document.createElement("a");
-              a.href = url;
-              a.download = "roast.png";
-              a.click();
-              URL.revokeObjectURL(url);
-              alert("Failed to copy to clipboard. Image downloaded instead.");
+              alert("Failed to copy to clipboard.");
             }
           } else {
             throw new Error("Failed to create image blob");
@@ -104,20 +83,28 @@ function App() {
     } catch (error) {
       console.error("Error converting to image:", error);
       alert("Failed to create image. Please try again.");
-    } finally {
-      setIsCopying(false);
     }
   };
 
+
   return (
-    <main className="min-w-[525px] container mx-auto border-none shadow-xl rounded-xl bg-neutral-200 p-4">
-      <div ref={roastRef}>
-        <h1 className="font-serif text-3xl text-center text-neutral-900">
-          YouTube Watch Later Roast
-        </h1>
-        <p className="text-lg font-medium text-center text-neutral-600">
-          Roasting you based on your YouTube's watch later playlist
-        </p>
+    <main className={`min-w-[525px] container mx-auto border-none shadow-xl rounded-xl bg-neutral-200 text-neutral-900 p-4 transition-colors duration-300`}>
+      <div ref={roastRef} className="space-y-4">
+        <div className="space-y-2">
+          <h1 className="font-serif text-3xl text-center">
+            YouTube Watch Later Roast
+          </h1>
+          <p className="text-lg font-medium text-center opacity-80">
+            Roasting you based on your YouTube's watch later playlist
+          </p>
+          <div className="flex items-center justify-center gap-2">
+            <p className="text-sm">GitHub: </p>
+            <a className="text-sm font-semibold text-center hover:underline" href="https://github.com/joshi-kaushal/yt-wl-roast" target="_blank" rel="noopener noreferrer">
+              joshi-kaushal/yt-wl-roast
+            </a>
+          </div>
+        </div>
+
         {isTabYoutube ? (
           <WatchLaterTab roast={roast} setRoast={setRoast} />
         ) : (
@@ -126,19 +113,20 @@ function App() {
       </div>
 
       {roast && (
-        <div className="flex justify-center mt-4 space-x-4">
+        <div className="flex justify-center mt-6 space-x-4">
           <button
-            className="px-4 py-2 font-bold transition-all duration-300 ease-in-out bg-transparent border border-gray-300 rounded-lg hover:bg-gray-200"
-            onClick={onCopy}
+            className="flex items-center px-4 py-2 space-x-2 font-bold transition-all duration-300 ease-in-out bg-transparent border border-gray-300 rounded-lg hover:bg-gray-200"
+            onClick={handleCopy}
           >
-            Copy text
+            <Copy className="w-4 h-4" />
+            <span>Copy text</span>
           </button>
           <button
-            className="px-4 py-2 font-bold text-white transition-all duration-300 ease-in-out bg-red-600 rounded-lg shadow-md hover:bg-red-500"
+            className="flex items-center px-6 py-3 space-x-2 font-bold text-white transition-all duration-300 ease-in-out bg-red-600 rounded-lg shadow-md hover:bg-red-500"
             onClick={copyAsImage}
-            disabled={isCopying}
           >
-            Copy as image
+            <Image className="w-4 h-4" />
+            <span>Copy as image</span>
           </button>
         </div>
       )}

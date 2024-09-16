@@ -7,13 +7,12 @@
     "storage",
     "activeTab",
     "scripting",
-    "downloads",
     "https://www.youtube.com/*"
   ],
   "action": {
     "default_popup": "index.html"
   },
-   "icons": {
+  "icons": {
     "16": "./icons/icon16.ico",
     "32": "./icons/icon32.ico",
     "48": "./icons/icon48.ico",
