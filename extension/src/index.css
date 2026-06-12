@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Platypi';
+  src: url('/fonts/serif-platypi.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+.roast-content h3 {
+  margin-top: 0.75rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #dc2626;
+}
+
+.roast-content p {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.roast-content strong {
+  font-weight: 700;
+  color: #dc2626;
+}
+
+.roast-content em {
+  font-style: italic;
+  color: #4b5563;
+}
+
+.roast-content ul,
+.roast-content ol {
+  margin-bottom: 0.5rem;
+  padding-left: 1.25rem;
+  list-style: disc;
+}
+
+.roast-content ol {
+  list-style: decimal;
+}

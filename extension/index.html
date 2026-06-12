@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YT Watch Later Roast</title>
+  </head>
+  <body>
+    <main
+      class="min-w-[525px] container mx-auto border-none shadow-xl rounded-xl bg-neutral-200 text-neutral-900 p-4 transition-colors duration-300"
+    >
+      <div id="roast-card" class="space-y-4">
+        <div class="space-y-2">
+          <h1 class="font-serif text-3xl text-center">YouTube Watch Later Roast</h1>
+          <p class="text-lg font-medium text-center opacity-80">
+            Roasting you based on your YouTube's watch later playlist
+          </p>
+          <div class="flex items-center justify-center gap-2">
+            <p class="text-sm">GitHub:</p>
+            <a
+              class="text-sm font-semibold text-center hover:underline"
+              href="https://github.com/joshi-kaushal/yt-wl-roast"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              joshi-kaushal/yt-wl-roast
+            </a>
+          </div>
+        </div>
+
+        <!-- Watch Later view -->
+        <div id="watch-later-view">
+          <section class="flex flex-col gap-4 p-6 mt-4 rounded-lg shadow-lg bg-white">
+            <div id="wl-idle" class="flex flex-col items-center justify-center gap-4">
+              <button
+                id="roast-button"
+                class="w-full max-w-xs px-6 py-3 font-bold text-white transition-all duration-300 ease-in-out bg-red-600 rounded-lg shadow-md hover:bg-red-500"
+              >
+                Roast my playlist
+              </button>
+              <p class="font-medium text-center text-gray-700">
+                Your data won't be stored anywhere. Chill.
+              </p>
+            </div>
+
+            <div id="loading" class="hidden space-y-2">
+              <div class="w-full h-4 rounded bg-gray-700 animate-pulse"></div>
+              <div class="w-5/6 h-4 rounded bg-gray-700 animate-pulse"></div>
+              <div class="w-4/6 h-4 rounded bg-gray-700 animate-pulse"></div>
+            </div>
+
+            <div
+              id="error"
+              class="hidden flex items-center p-4 rounded-md bg-red-100 text-red-800"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-5 h-5 mr-2 flex-shrink-0"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <p id="error-text"></p>
+            </div>
+
+            <div id="roast-content" class="roast-content hidden"></div>
+          </section>
+        </div>
+
+        <!-- Not Watch Later view -->
+        <div id="not-watch-later-view" class="hidden">
+          <section
+            class="mt-4 p-6 rounded-lg items-center shadow-lg flex justify-center flex-col gap-4 bg-white"
+          >
+            <h2 class="text-xl font-medium text-center text-neutral-900">
+              You must be on YouTube's watch later page to use this extension.
+            </h2>
+            <a
+              class="flex items-center gap-2 px-6 py-3 font-bold text-white transition-all duration-300 ease-in-out bg-red-600 rounded-lg shadow-md hover:bg-red-500"
+              href="https://www.youtube.com/playlist?list=WL"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              <span>Watch later playlist</span>
+            </a>
+          </section>
+        </div>
+      </div>
+
+      <div id="copy-actions" class="hidden flex justify-center mt-6 space-x-4">
+        <button
+          id="copy-text"
+          class="flex items-center px-4 py-2 space-x-2 font-bold transition-all duration-300 ease-in-out bg-transparent border border-gray-300 rounded-lg hover:bg-gray-200"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-4 h-4"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span>Copy text</span>
+        </button>
+        <button
+          id="copy-image"
+          class="flex items-center px-6 py-3 space-x-2 font-bold text-white transition-all duration-300 ease-in-out bg-red-600 rounded-lg shadow-md hover:bg-red-500"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-4 h-4"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+            <polyline points="21 15 16 10 5 21"></polyline>
+          </svg>
+          <span>Copy as image</span>
+        </button>
+      </div>
+    </main>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
