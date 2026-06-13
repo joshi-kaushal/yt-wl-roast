@@ -32,10 +32,10 @@ pnpm install
 pnpm build
 ```
 - Open Chrome → Extensions → "Load unpacked" → select the `extension/dist/` folder.
-- The extension points at `http://localhost:8000/roast` (see `extension/src/api.ts`). Change `BACKEND_URL` if you deploy the backend elsewhere.
+- Configuration comes from `extension/.env` (copy `extension/.env.example`). `VITE_BACKEND_URL` sets where the backend lives; `VITE_SHARED_SECRET` must match the backend's `YT_WL_API_KEY`. Rebuild after changing.
 
 ## Notes
-- The extension's `SHARED_SECRET` (`extension/src/api.ts`) is the same value as the backend's `YT_WL_API_KEY`. It ships in the client, so treat it as obfuscation only — the real protection is the rate limit plus keeping your OpenRouter key server-side.
+- The extension's `VITE_SHARED_SECRET` (`extension/.env`) is the same value as the backend's `YT_WL_API_KEY`. It ships in the client, so treat it as obfuscation only — the real protection is the rate limit plus keeping your OpenRouter key server-side.
 - The roast is returned as Markdown and rendered with `marked` + sanitized with `DOMPurify` before being shown in the popup.
 - No playlist data is persisted; the backend only forwards titles to the LLM and returns the roast.
 
@@ -46,11 +46,11 @@ The backend is containerized and deploys as a Docker service.
 3. Railway auto-detects `railway.json` and builds the image. It sets `PORT` for you.
 4. In the Railway service **Variables**, add:
    - `OPENROUTER_API_KEY` — your OpenRouter key
-   - `YT_WL_API_KEY` — any secret string (must match the extension's `SHARED_SECRET` in `extension/src/api.ts`)
+   - `YT_WL_API_KEY` — any secret string (must match the extension's `VITE_SHARED_SECRET` in `extension/.env`)
    - Optionally `MODEL`, `RATE_LIMIT_PER_MINUTE`, `CORS_ORIGINS`.
 5. Once deployed, copy the generated `*.up.railway.app` URL.
 
 ### Point the extension at the deployed backend
-- In `extension/src/api.ts`, set `BACKEND_URL` to `https://<your-app>.up.railway.app/roast`.
+- In `extension/.env`, set `VITE_BACKEND_URL` to `https://<your-app>.up.railway.app/roast` and `VITE_SHARED_SECRET` to match the backend's `YT_WL_API_KEY`.
 - In `extension/public/manifest.json`, add your backend origin to `host_permissions` (e.g. `"https://<your-app>.up.railway.app/*"`).
 - `pnpm build` and reload the unpacked extension.
