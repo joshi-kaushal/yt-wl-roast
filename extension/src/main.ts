@@ -2,7 +2,16 @@ import "./index.css";
 import { marked } from "marked";
 import DOMPurify from "dompurify";
 import html2canvas from "html2canvas";
-import { BACKEND_URL, SHARED_SECRET } from "./api";
+
+const BACKEND_URL =
+  import.meta.env.VITE_BACKEND_URL ?? "http://localhost:8000/roast";
+const SHARED_SECRET = import.meta.env.VITE_SHARED_SECRET ?? "";
+
+if (!SHARED_SECRET) {
+  console.warn(
+    "VITE_SHARED_SECRET is not set — the backend will reject roast requests."
+  );
+}
 
 const WL_URL = "youtube.com/playlist?list=WL";
 
@@ -20,6 +29,7 @@ const copyTextBtn = document.getElementById("copy-text") as HTMLButtonElement;
 const copyImageBtn = document.getElementById("copy-image") as HTMLButtonElement;
 
 let currentRoast = "";
+let isRoasting = false;
 
 function isWatchLaterUrl(url?: string): boolean {
   return url?.includes(WL_URL) ?? false;
@@ -35,6 +45,25 @@ async function setViewForActiveTab(): Promise<void> {
   notWatchLaterView.classList.toggle("hidden", onWL);
 }
 
+type RoastState = "idle" | "loading" | "result" | "error";
+
+function showState(state: RoastState, message?: string): void {
+  const showButton = state === "idle" || state === "error";
+  wlIdle.classList.toggle("hidden", !showButton);
+  loading.classList.toggle("hidden", state !== "loading");
+  errorBox.classList.toggle("hidden", state !== "error");
+  roastContent.classList.toggle("hidden", state !== "result");
+  copyActions.classList.toggle("hidden", state !== "result");
+
+  if (state === "error" && message) {
+    errorText.textContent = message;
+  }
+  if (state === "idle" || state === "loading") {
+    roastContent.innerHTML = "";
+    currentRoast = "";
+  }
+}
+
 // Injected into the YouTube page — must be self-contained (no closure refs).
 function scrapeWatchLaterTitles(): string[] {
   const titles: string[] = [];
@@ -45,15 +74,6 @@ function scrapeWatchLaterTitles(): string[] {
       if (title) titles.push(title);
     });
   return titles;
-}
-
-function showError(message: string): void {
-  errorText.textContent = message;
-  errorBox.classList.remove("hidden");
-}
-
-function hideError(): void {
-  errorBox.classList.add("hidden");
 }
 
 async function fetchRoast(titles: string[]): Promise<string> {
@@ -75,15 +95,8 @@ async function fetchRoast(titles: string[]): Promise<string> {
 }
 
 async function handleRoast(): Promise<void> {
-  hideError();
-  roastContent.classList.add("hidden");
-  roastContent.innerHTML = "";
-  currentRoast = "";
-  copyActions.classList.add("hidden");
-  wlIdle.classList.add("hidden");
-  loading.classList.remove("hidden");
-  roastButton.disabled = true;
-  roastButton.textContent = "Roasting...";
+  isRoasting = true;
+  showState("loading");
 
   try {
     const [tab] = await chrome.tabs.query({
@@ -104,19 +117,15 @@ async function handleRoast(): Promise<void> {
       roastContent.innerHTML = DOMPurify.sanitize(
         marked.parse(roast) as string
       );
-      roastContent.classList.remove("hidden");
-      copyActions.classList.remove("hidden");
+      showState("result");
     } else {
-      showError("Not enough videos in the playlist to roast.");
+      showState("error", "Not enough videos in the playlist to roast.");
     }
   } catch (err) {
     console.error(err);
-    showError("An error occurred while processing your request.");
+    showState("error", "An error occurred while processing your request.");
   } finally {
-    loading.classList.add("hidden");
-    roastButton.disabled = false;
-    roastButton.textContent = "Roast my playlist";
-    wlIdle.classList.remove("hidden");
+    isRoasting = false;
   }
 }
 
@@ -173,7 +182,7 @@ copyImageBtn.addEventListener("click", handleCopyImage);
 setViewForActiveTab();
 
 chrome.tabs.onUpdated.addListener((_, changeInfo, tab) => {
-  if (changeInfo.status === "complete" && tab.url) {
+  if (changeInfo.status === "complete" && tab.url && !isRoasting) {
     setViewForActiveTab();
   }
 });
