@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@google/generative-ai':
-        specifier: ^0.16.0
-        version: 0.16.0
       clipboardy:
         specifier: ^4.0.0
         version: 4.0.0
@@ -351,10 +348,6 @@ packages:
   '@eslint/object-schema@2.1.4':
     resolution: {integrity: sha512-BsWiH1yFGjXXS2yvrf5LyuoSIIbPrGUWob917o+BTKuZ7qJdxX8aJLRxs1fS9n6r7vESrq1OUqb68dANcFXuQQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
-
-  '@google/generative-ai@0.16.0':
-    resolution: {integrity: sha512-doB5ZNxS6m+jUZqaLCeYXfBZCdq6Ho0ibkq5/17xe1qAUZpCLWlvCDGtqFPqqO+yezNmvGatS0KhV22yiOT3DA==}
-    engines: {node: '>=18.0.0'}
 
   '@humanwhocodes/module-importer@1.0.1':
     resolution: {integrity: sha512-bxveV4V8v5Yb4ncFTT3rPSgZBOpCkjfK0y4oVVVJwIuDVBRMDXrPyXRL988i5ap9m9bnyEEjWfm5WkBmtffLfA==}
@@ -2026,8 +2019,6 @@ snapshots:
   '@eslint/js@9.8.0': {}
 
   '@eslint/object-schema@2.1.4': {}
-
-  '@google/generative-ai@0.16.0': {}
 
   '@humanwhocodes/module-importer@1.0.1': {}
 

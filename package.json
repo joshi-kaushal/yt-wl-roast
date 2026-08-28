@@ -1,7 +1,7 @@
 {
   "name": "yt-wl-roast",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,7 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@google/generative-ai": "^0.16.0",
     "clipboardy": "^4.0.0",
     "clsx": "^2.1.1",
     "html-to-image": "^1.11.11",

@@ -1,13 +1,17 @@
 {
   "manifest_version": 3,
   "name": "YT Watch Later Roaster",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Roasts a user based on their watch later videos.",
   "permissions": [
     "storage",
     "activeTab",
     "scripting",
     "https://www.youtube.com/*"
+  ],
+  "host_permissions": [
+    "http://localhost/*",
+    "http://127.0.0.1/*"
   ],
   "action": {
     "default_popup": "index.html"

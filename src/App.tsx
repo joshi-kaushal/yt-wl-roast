@@ -16,12 +16,18 @@ function App() {
         active: true,
         currentWindow: true,
       });
-      setIsTabYoutube(tab.url?.includes("youtube.com/playlist?list=WL") ?? false);
+      setIsTabYoutube(
+        tab.url?.includes("youtube.com/playlist?list=WL") ?? false
+      );
     };
 
     checkCurrentTab();
 
-    const listener = (_: number, changeInfo: chrome.tabs.TabChangeInfo, tab: chrome.tabs.Tab) => {
+    const listener = (
+      _: number,
+      changeInfo: chrome.tabs.TabChangeInfo,
+      tab: chrome.tabs.Tab
+    ) => {
       if (changeInfo.status === "complete" && tab.url) {
         setIsTabYoutube(tab.url.includes("youtube.com/playlist?list=WL"));
       }
@@ -86,9 +92,10 @@ function App() {
     }
   };
 
-
   return (
-    <main className={`min-w-[525px] container mx-auto border-none shadow-xl rounded-xl bg-neutral-200 text-neutral-900 p-4 transition-colors duration-300`}>
+    <main
+      className={`min-w-[525px] container mx-auto border-none shadow-xl rounded-xl bg-neutral-200 text-neutral-900 p-4 transition-colors duration-300`}
+    >
       <div ref={roastRef} className="space-y-4">
         <div className="space-y-2">
           <h1 className="font-serif text-3xl text-center">
@@ -99,7 +106,12 @@ function App() {
           </p>
           <div className="flex items-center justify-center gap-2">
             <p className="text-sm">GitHub: </p>
-            <a className="text-sm font-semibold text-center hover:underline" href="https://github.com/joshi-kaushal/yt-wl-roast" target="_blank" rel="noopener noreferrer">
+            <a
+              className="text-sm font-semibold text-center hover:underline"
+              href="https://github.com/joshi-kaushal/yt-wl-roast"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               joshi-kaushal/yt-wl-roast
             </a>
           </div>
