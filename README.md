@@ -36,3 +36,20 @@ pnpm build
 ## Notes
 - The extension's `SHARED_SECRET` (`src/lib/config.ts`) is the same value as the backend's `YT_WL_API_KEY`. It ships in the client, so treat it as obfuscation only — the real protection is the rate limit plus keeping your OpenRouter key server-side.
 - No playlist data is persisted; the backend only forwards titles to the LLM and returns the roast.
+
+## Deploy (Railway)
+The backend is containerized and deploys as a Docker service.
+1. Push this repo to GitHub (the `railway.json` points Railway at `backend/Dockerfile`).
+2. In Railway, create a new project → "Deploy from GitHub repo" → select this repo.
+3. Railway auto-detects `railway.json` and builds the image. It sets `PORT` for you.
+4. In the Railway service **Variables**, add:
+   - `OPENROUTER_API_KEY` — your OpenRouter key
+   - `YT_WL_API_KEY` — any secret string (must match the extension's `SHARED_SECRET` in `src/lib/config.ts`)
+   - Optionally `MODEL`, `RATE_LIMIT_PER_MINUTE`, `CORS_ORIGINS`.
+5. Once deployed, copy the generated `*.up.railway.app` URL.
+
+### Point the extension at the deployed backend
+- In `src/lib/config.ts`, set `BACKEND_URL` to `https://<your-app>.up.railway.app/roast`.
+- In `public/manifest.json`, add your backend origin to `host_permissions` (e.g. `"https://<your-app>.up.railway.app/*"`).
+- `pnpm build` and reload the unpacked extension.
+
