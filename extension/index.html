@@ -11,7 +11,9 @@
     >
       <div id="roast-card" class="space-y-4">
         <div class="space-y-2">
-          <h1 class="font-serif text-3xl text-center">YouTube Watch Later Roast</h1>
+          <h1 class="font-serif text-3xl text-center">
+            YouTube Watch Later Roast
+          </h1>
           <p class="text-lg font-medium text-center opacity-80">
             Roasting you based on your YouTube's watch later playlist
           </p>
@@ -30,8 +32,13 @@
 
         <!-- Watch Later view -->
         <div id="watch-later-view">
-          <section class="flex flex-col gap-4 p-6 mt-4 rounded-lg shadow-lg bg-white">
-            <div id="wl-idle" class="flex flex-col items-center justify-center gap-4">
+          <section
+            class="flex flex-col gap-4 p-6 mt-4 bg-white rounded-lg shadow-lg"
+          >
+            <div
+              id="wl-idle"
+              class="flex flex-col items-center justify-center gap-4"
+            >
               <button
                 id="roast-button"
                 class="w-full max-w-xs px-6 py-3 font-bold text-white transition-all duration-300 ease-in-out bg-red-600 rounded-lg shadow-md hover:bg-red-500"
@@ -39,23 +46,24 @@
                 Roast my playlist
               </button>
               <p class="font-medium text-center text-gray-700">
-                Your data won't be stored anywhere. Chill.
+                We only send the video titles, and don't store them anywhere.
+                chill.
               </p>
             </div>
 
             <div id="loading" class="hidden space-y-2">
-              <div class="w-full h-4 rounded bg-gray-700 animate-pulse"></div>
-              <div class="w-5/6 h-4 rounded bg-gray-700 animate-pulse"></div>
-              <div class="w-4/6 h-4 rounded bg-gray-700 animate-pulse"></div>
+              <div class="w-full h-4 bg-gray-700 rounded animate-pulse"></div>
+              <div class="w-5/6 h-4 bg-gray-700 rounded animate-pulse"></div>
+              <div class="w-4/6 h-4 bg-gray-700 rounded animate-pulse"></div>
             </div>
 
             <div
               id="error"
-              class="hidden flex items-center p-4 rounded-md bg-red-100 text-red-800"
+              class="flex items-center hidden p-4 text-red-800 bg-red-100 rounded-md"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="w-5 h-5 mr-2 flex-shrink-0"
+                class="flex-shrink-0 w-5 h-5 mr-2"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -70,14 +78,14 @@
               <p id="error-text"></p>
             </div>
 
-            <div id="roast-content" class="roast-content hidden"></div>
+            <div id="roast-content" class="hidden roast-content"></div>
           </section>
         </div>
 
         <!-- Not Watch Later view -->
         <div id="not-watch-later-view" class="hidden">
           <section
-            class="mt-4 p-6 rounded-lg items-center shadow-lg flex justify-center flex-col gap-4 bg-white"
+            class="flex flex-col items-center justify-center gap-4 p-6 mt-4 bg-white rounded-lg shadow-lg"
           >
             <h2 class="text-xl font-medium text-center text-neutral-900">
               You must be on YouTube's watch later page to use this extension.
@@ -94,7 +102,7 @@
         </div>
       </div>
 
-      <div id="copy-actions" class="hidden flex justify-center mt-6 space-x-4">
+      <div id="copy-actions" class="flex justify-center hidden mt-6 space-x-4">
         <button
           id="copy-text"
           class="flex items-center px-4 py-2 space-x-2 font-bold transition-all duration-300 ease-in-out bg-transparent border border-gray-300 rounded-lg hover:bg-gray-200"
@@ -110,7 +118,9 @@
             stroke-linejoin="round"
           >
             <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            <path
+              d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+            ></path>
           </svg>
           <span>Copy text</span>
         </button>
